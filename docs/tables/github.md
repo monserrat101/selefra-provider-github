@@ -1,4 +1,4 @@
-# Provider: github
+# Provider: GitHub
 
 ## Latest Version 
 
@@ -11,7 +11,7 @@ v0.0.1
 # Install 
 
 ```
-selefre  provider install github
+selefra  provider install github
 ```
 
 
