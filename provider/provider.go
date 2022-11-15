@@ -51,9 +51,8 @@ func GetProvider() *provider.Provider {
 			GetDefaultConfigTemplate: func(ctx context.Context) string {
 				return `##  Optional, Repeated. Add an accounts block for every account you want to assume-role into and fetch data from.
 #accounts:
-#  - access_token: "xxx" # access_token
-#    orgs: #  org list 
-#      - "xxx"`
+#  - access_token: <YOUR_ACCESS_TOKEN_HERE> # Required. Personal Access Token
+#    orgs: #  ["org"] # Required. List of organizations to extract from`
 			},
 			Validation: func(ctx context.Context, config *viper.Viper) *schema.Diagnostics {
 				var githubConfig github_client.Configs
