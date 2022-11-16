@@ -6,7 +6,7 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/google/go-github/v45 v45.2.0
 	github.com/pkg/errors v0.9.1
-	github.com/selefra/selefra-provider-sdk v0.0.9-0.20221028095343-84c3c21bad7c
+	github.com/selefra/selefra-provider-sdk v0.0.12
 	github.com/selefra/selefra-utils v0.0.2
 	github.com/spf13/viper v1.14.0
 	golang.org/x/oauth2 v0.1.0
