@@ -20,13 +20,10 @@ func GetProvider() *provider.Provider {
 		TableList: GenTables(),
 		ClientMeta: schema.ClientMeta{
 			InitClient: func(ctx context.Context, clientMeta *schema.ClientMeta, config *viper.Viper) ([]any, *schema.Diagnostics) {
-				var githubConfig github_client.Configs
+				var githubConfig github_client.Config
 				err := config.Unmarshal(&githubConfig)
 				if err != nil {
 					return nil, schema.NewDiagnostics().AddErrorMsg(constants.Analysisconfigerrs, err.Error())
-				}
-				if len(githubConfig.Providers) == 0 {
-					return nil, schema.NewDiagnostics().AddErrorMsg(constants.Analysisconfigerrnoconfiguration)
 				}
 
 				clients, err := github_client.NewClients(githubConfig)
@@ -55,13 +52,10 @@ func GetProvider() *provider.Provider {
 #    orgs: #  ["org"] # Required. List of organizations to extract from`
 			},
 			Validation: func(ctx context.Context, config *viper.Viper) *schema.Diagnostics {
-				var githubConfig github_client.Configs
+				var githubConfig github_client.Config
 				err := config.Unmarshal(&githubConfig)
 				if err != nil {
 					return schema.NewDiagnostics().AddErrorMsg(constants.Analysisconfigerrs, err.Error())
-				}
-				if len(githubConfig.Providers) == 0 {
-					return schema.NewDiagnostics().AddErrorMsg(constants.Analysisconfigerrnoconfiguration)
 				}
 				return nil
 			},
