@@ -11,11 +11,11 @@ org
 
 |  Column Name   |  Data Type  | Uniq | Nullable | Description | 
 |  ----  | ----  | ----  | ----  | ---- | 
-| minutes_used_breakdown | json | X | √ |  | 
-| selefra_id | string | √ | √ | primary keys value md5 | 
 | org | string | √ | √ | `The Github Organization of the resource.` | 
 | total_minutes_used | int | X | √ |  | 
 | total_paid_minutes_used | float | X | √ |  | 
 | included_minutes | int | X | √ |  | 
+| minutes_used_breakdown | json | X | √ |  | 
+| selefra_id | string | √ | √ | primary keys value md5 | 
 
 

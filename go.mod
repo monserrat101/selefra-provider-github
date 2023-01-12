@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/golang/mock v1.6.0
-	github.com/google/go-github/v45 v45.2.0
+	github.com/google/go-github/v48 v48.2.0
 	github.com/pkg/errors v0.9.1
 	github.com/selefra/selefra-provider-sdk v0.0.16
 	github.com/selefra/selefra-utils v0.0.2
@@ -19,6 +19,7 @@ require (
 	github.com/fatih/color v1.13.0 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/google/go-github/v48 v48.2.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/hashicorp/go-hclog v1.3.1 // indirect
 	github.com/hashicorp/go-plugin v1.4.6 // indirect

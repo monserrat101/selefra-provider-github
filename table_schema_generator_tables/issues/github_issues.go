@@ -3,7 +3,7 @@ package issues
 import (
 	"context"
 
-	"github.com/google/go-github/v45/github"
+	"github.com/google/go-github/v48/github"
 	"github.com/selefra/selefra-provider-github/github_client"
 	"github.com/selefra/selefra-provider-github/table_schema_generator"
 	"github.com/selefra/selefra-provider-sdk/provider/schema"
@@ -71,51 +71,52 @@ func (x *TableGithubIssuesGenerator) GetExpandClientTask() func(ctx context.Cont
 
 func (x *TableGithubIssuesGenerator) GetColumns() []*schema.Column {
 	return []*schema.Column{
-		table_schema_generator.NewColumnBuilder().ColumnName("milestone").ColumnType(schema.ColumnTypeJSON).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("repository_url").ColumnType(schema.ColumnTypeString).
-			Extractor(column_value_extractor.StructSelector("RepositoryURL")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("org").ColumnType(schema.ColumnTypeString).Description("`The Github Organization of the resource.`").
-			Extractor(github_client.ExtractorOrg()).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("author_association").ColumnType(schema.ColumnTypeString).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("labels").ColumnType(schema.ColumnTypeJSON).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("comments").ColumnType(schema.ColumnTypeInt).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("locked").ColumnType(schema.ColumnTypeBool).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("closed_by").ColumnType(schema.ColumnTypeJSON).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("created_at").ColumnType(schema.ColumnTypeTimestamp).
-			Extractor(github_client.ExtractorGithubDateTime("CreatedAt")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("url").ColumnType(schema.ColumnTypeString).
 			Extractor(column_value_extractor.StructSelector("URL")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("comments_url").ColumnType(schema.ColumnTypeString).
-			Extractor(column_value_extractor.StructSelector("CommentsURL")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("node_id").ColumnType(schema.ColumnTypeString).
-			Extractor(column_value_extractor.StructSelector("NodeID")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("number").ColumnType(schema.ColumnTypeInt).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("state").ColumnType(schema.ColumnTypeString).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("body").ColumnType(schema.ColumnTypeString).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("closed_at").ColumnType(schema.ColumnTypeTimestamp).
-			Extractor(github_client.ExtractorGithubDateTime("ClosedAt")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("title").ColumnType(schema.ColumnTypeString).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("events_url").ColumnType(schema.ColumnTypeString).
 			Extractor(column_value_extractor.StructSelector("EventsURL")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("text_matches").ColumnType(schema.ColumnTypeJSON).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("reactions").ColumnType(schema.ColumnTypeJSON).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("active_lock_reason").ColumnType(schema.ColumnTypeString).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("repository").ColumnType(schema.ColumnTypeJSON).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("assignees").ColumnType(schema.ColumnTypeJSON).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("selefra_id").ColumnType(schema.ColumnTypeString).SetUnique().Description("primary keys value md5").
 			Extractor(column_value_extractor.PrimaryKeysID()).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("assignees").ColumnType(schema.ColumnTypeJSON).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("id").ColumnType(schema.ColumnTypeInt).
-			Extractor(column_value_extractor.StructSelector("ID")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("assignee").ColumnType(schema.ColumnTypeJSON).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("labels_url").ColumnType(schema.ColumnTypeString).
-			Extractor(column_value_extractor.StructSelector("LabelsURL")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("pull_request").ColumnType(schema.ColumnTypeJSON).
-			Extractor(column_value_extractor.StructSelector("PullRequestLinks")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("user").ColumnType(schema.ColumnTypeJSON).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("number").ColumnType(schema.ColumnTypeInt).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("locked").ColumnType(schema.ColumnTypeBool).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("updated_at").ColumnType(schema.ColumnTypeTimestamp).
 			Extractor(github_client.ExtractorGithubDateTime("UpdatedAt")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("closed_by").ColumnType(schema.ColumnTypeJSON).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("pull_request").ColumnType(schema.ColumnTypeJSON).
+			Extractor(column_value_extractor.StructSelector("PullRequestLinks")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("reactions").ColumnType(schema.ColumnTypeJSON).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("text_matches").ColumnType(schema.ColumnTypeJSON).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("body").ColumnType(schema.ColumnTypeString).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("author_association").ColumnType(schema.ColumnTypeString).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("assignee").ColumnType(schema.ColumnTypeJSON).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("comments_url").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("CommentsURL")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("milestone").ColumnType(schema.ColumnTypeJSON).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("active_lock_reason").ColumnType(schema.ColumnTypeString).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("title").ColumnType(schema.ColumnTypeString).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("comments").ColumnType(schema.ColumnTypeInt).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("html_url").ColumnType(schema.ColumnTypeString).
 			Extractor(column_value_extractor.StructSelector("HTMLURL")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("repository").ColumnType(schema.ColumnTypeJSON).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("labels").ColumnType(schema.ColumnTypeJSON).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("labels_url").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("LabelsURL")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("user").ColumnType(schema.ColumnTypeJSON).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("node_id").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("NodeID")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("org").ColumnType(schema.ColumnTypeString).Description("`The Github Organization of the resource.`").
+			Extractor(github_client.ExtractorOrg()).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("id").ColumnType(schema.ColumnTypeInt).
+			Extractor(column_value_extractor.StructSelector("ID")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("state_reason").ColumnType(schema.ColumnTypeString).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("state").ColumnType(schema.ColumnTypeString).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("closed_at").ColumnType(schema.ColumnTypeTimestamp).
+			Extractor(github_client.ExtractorGithubDateTime("ClosedAt")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("created_at").ColumnType(schema.ColumnTypeTimestamp).
+			Extractor(github_client.ExtractorGithubDateTime("CreatedAt")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("repository_url").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("RepositoryURL")).Build(),
 	}
 }
 

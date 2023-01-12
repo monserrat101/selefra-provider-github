@@ -3,7 +3,7 @@ package teams
 import (
 	"context"
 
-	"github.com/google/go-github/v45/github"
+	"github.com/google/go-github/v48/github"
 	"github.com/selefra/selefra-provider-github/github_client"
 	"github.com/selefra/selefra-provider-github/table_schema_generator"
 	"github.com/selefra/selefra-provider-sdk/provider/schema"
@@ -64,34 +64,34 @@ func (x *TableGithubTeamsGenerator) GetExpandClientTask() func(ctx context.Conte
 
 func (x *TableGithubTeamsGenerator) GetColumns() []*schema.Column {
 	return []*schema.Column{
+		table_schema_generator.NewColumnBuilder().ColumnName("members_count").ColumnType(schema.ColumnTypeInt).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("html_url").ColumnType(schema.ColumnTypeString).
 			Extractor(column_value_extractor.StructSelector("HTMLURL")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("members_url").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("MembersURL")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("selefra_id").ColumnType(schema.ColumnTypeString).SetUnique().Description("primary keys value md5").
+			Extractor(column_value_extractor.PrimaryKeysID()).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("org").ColumnType(schema.ColumnTypeString).Description("`The Github Organization of the resource.`").
 			Extractor(github_client.ExtractorOrg()).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("id").ColumnType(schema.ColumnTypeInt).
 			Extractor(column_value_extractor.StructSelector("ID")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("permissions").ColumnType(schema.ColumnTypeJSON).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("privacy").ColumnType(schema.ColumnTypeString).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("organization").ColumnType(schema.ColumnTypeJSON).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("selefra_id").ColumnType(schema.ColumnTypeString).SetUnique().Description("primary keys value md5").
-			Extractor(column_value_extractor.PrimaryKeysID()).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("url").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("URL")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("slug").ColumnType(schema.ColumnTypeString).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("members_count").ColumnType(schema.ColumnTypeInt).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("members_url").ColumnType(schema.ColumnTypeString).
-			Extractor(column_value_extractor.StructSelector("MembersURL")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("repos_count").ColumnType(schema.ColumnTypeInt).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("repositories_url").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("RepositoriesURL")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("parent").ColumnType(schema.ColumnTypeJSON).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("ldap_dn").ColumnType(schema.ColumnTypeString).
-			Extractor(column_value_extractor.StructSelector("LDAPDN")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("node_id").ColumnType(schema.ColumnTypeString).
-			Extractor(column_value_extractor.StructSelector("NodeID")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("name").ColumnType(schema.ColumnTypeString).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("description").ColumnType(schema.ColumnTypeString).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("permission").ColumnType(schema.ColumnTypeString).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("repositories_url").ColumnType(schema.ColumnTypeString).
-			Extractor(column_value_extractor.StructSelector("RepositoriesURL")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("url").ColumnType(schema.ColumnTypeString).
-			Extractor(column_value_extractor.StructSelector("URL")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("repos_count").ColumnType(schema.ColumnTypeInt).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("permissions").ColumnType(schema.ColumnTypeJSON).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("privacy").ColumnType(schema.ColumnTypeString).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("node_id").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("NodeID")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("organization").ColumnType(schema.ColumnTypeJSON).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("ldap_dn").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("LDAPDN")).Build(),
 	}
 }
 

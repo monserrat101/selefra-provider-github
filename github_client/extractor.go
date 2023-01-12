@@ -6,7 +6,7 @@ import (
 
 	"github.com/selefra/selefra-provider-github/constants"
 
-	"github.com/google/go-github/v45/github"
+	"github.com/google/go-github/v48/github"
 	"github.com/selefra/selefra-provider-sdk/provider/schema"
 	"github.com/selefra/selefra-provider-sdk/provider/transformer/column_value_extractor"
 	"github.com/selefra/selefra-utils/pkg/reflect_util"

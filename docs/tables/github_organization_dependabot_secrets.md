@@ -1,9 +1,9 @@
-# Table: github_external_groups
+# Table: github_organization_dependabot_secrets
 
 ## Primary Keys 
 
 ```
-org, group_id
+org, name
 ```
 
 
@@ -12,11 +12,12 @@ org, group_id
 |  Column Name   |  Data Type  | Uniq | Nullable | Description | 
 |  ----  | ----  | ----  | ----  | ---- | 
 | updated_at | timestamp | X | √ |  | 
-| teams | json | X | √ |  | 
-| members | json | X | √ |  | 
+| visibility | string | X | √ |  | 
+| selected_repositories_url | string | X | √ |  | 
+| github_organizations_selefra_id | string | X | X | fk to github_organizations.selefra_id | 
 | selefra_id | string | √ | √ | primary keys value md5 | 
 | org | string | X | √ | `The Github Organization of the resource.` | 
-| group_id | int | X | √ |  | 
-| group_name | string | X | √ |  | 
+| name | string | X | √ |  | 
+| created_at | timestamp | X | √ |  | 
 
 

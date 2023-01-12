@@ -55,14 +55,14 @@ func (x *TableGithubBillingActionGenerator) GetExpandClientTask() func(ctx conte
 
 func (x *TableGithubBillingActionGenerator) GetColumns() []*schema.Column {
 	return []*schema.Column{
-		table_schema_generator.NewColumnBuilder().ColumnName("minutes_used_breakdown").ColumnType(schema.ColumnTypeJSON).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("selefra_id").ColumnType(schema.ColumnTypeString).SetUnique().Description("primary keys value md5").
-			Extractor(column_value_extractor.PrimaryKeysID()).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("org").ColumnType(schema.ColumnTypeString).Description("`The Github Organization of the resource.`").
 			Extractor(github_client.ExtractorOrg()).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("total_minutes_used").ColumnType(schema.ColumnTypeInt).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("total_paid_minutes_used").ColumnType(schema.ColumnTypeFloat).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("included_minutes").ColumnType(schema.ColumnTypeInt).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("minutes_used_breakdown").ColumnType(schema.ColumnTypeJSON).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("selefra_id").ColumnType(schema.ColumnTypeString).SetUnique().Description("primary keys value md5").
+			Extractor(column_value_extractor.PrimaryKeysID()).Build(),
 	}
 }
 

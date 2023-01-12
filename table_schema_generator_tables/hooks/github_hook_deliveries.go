@@ -3,7 +3,7 @@ package hooks
 import (
 	"context"
 
-	"github.com/google/go-github/v45/github"
+	"github.com/google/go-github/v48/github"
 	"github.com/selefra/selefra-provider-github/github_client"
 	"github.com/selefra/selefra-provider-github/table_schema_generator"
 	"github.com/selefra/selefra-provider-sdk/provider/schema"
@@ -31,8 +31,8 @@ func (x *TableGithubHookDeliveriesGenerator) GetOptions() *schema.TableOptions {
 	return &schema.TableOptions{
 		PrimaryKeys: []string{
 			"org",
-			"id",
 			"hook_id",
+			"id",
 		},
 	}
 }
@@ -68,36 +68,6 @@ func (x *TableGithubHookDeliveriesGenerator) GetExpandClientTask() func(ctx cont
 
 func (x *TableGithubHookDeliveriesGenerator) GetColumns() []*schema.Column {
 	return []*schema.Column{
-		table_schema_generator.NewColumnBuilder().ColumnName("action").ColumnType(schema.ColumnTypeString).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("installation_id").ColumnType(schema.ColumnTypeInt).
-			Extractor(column_value_extractor.StructSelector("InstallationID")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("org").ColumnType(schema.ColumnTypeString).Description("`The Github Organization of the resource.`").
-			Extractor(github_client.ExtractorOrg()).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("redelivery").ColumnType(schema.ColumnTypeBool).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("status").ColumnType(schema.ColumnTypeString).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("status_code").ColumnType(schema.ColumnTypeInt).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("request").ColumnType(schema.ColumnTypeString).
-			Extractor(column_value_extractor.WrapperExtractFunction(func(ctx context.Context, clientMeta *schema.ClientMeta, client any,
-				task *schema.DataSourcePullTask, row *schema.Row, column *schema.Column, result any) (any, *schema.Diagnostics) {
-
-				extractor := func() (any, error) {
-					delivery := result.(*github.HookDelivery)
-					return delivery.Request.String(), nil
-				}
-				extractResultValue, err := extractor()
-				if err != nil {
-					return nil, schema.NewDiagnostics().AddErrorColumnValueExtractor(task.Table, column, err)
-				} else {
-					return extractResultValue, nil
-				}
-			})).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("github_hooks_selefra_id").ColumnType(schema.ColumnTypeString).SetNotNull().Description("fk to github_hooks.selefra_id").
-			Extractor(column_value_extractor.ParentColumnValue("selefra_id")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("duration").ColumnType(schema.ColumnTypeFloat).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("repository_id").ColumnType(schema.ColumnTypeInt).
-			Extractor(column_value_extractor.StructSelector("RepositoryID")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("hook_id").ColumnType(schema.ColumnTypeInt).Description("`Hook ID`").
-			Extractor(github_client.ExtractorParentField("ID")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("response").ColumnType(schema.ColumnTypeString).
 			Extractor(column_value_extractor.WrapperExtractFunction(func(ctx context.Context, clientMeta *schema.ClientMeta, client any,
 				task *schema.DataSourcePullTask, row *schema.Row, column *schema.Column, result any) (any, *schema.Diagnostics) {
@@ -114,14 +84,44 @@ func (x *TableGithubHookDeliveriesGenerator) GetColumns() []*schema.Column {
 				}
 			})).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("delivered_at").ColumnType(schema.ColumnTypeTimestamp).
-			Extractor(column_value_extractor.StructSelector("DeliveredAt.Time")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("guid").ColumnType(schema.ColumnTypeString).
-			Extractor(column_value_extractor.StructSelector("GUID")).Build(),
+			Extractor(github_client.ExtractorGithubDateTime("DeliveredAt")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("event").ColumnType(schema.ColumnTypeString).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("request").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.WrapperExtractFunction(func(ctx context.Context, clientMeta *schema.ClientMeta, client any,
+				task *schema.DataSourcePullTask, row *schema.Row, column *schema.Column, result any) (any, *schema.Diagnostics) {
+
+				extractor := func() (any, error) {
+					delivery := result.(*github.HookDelivery)
+					return delivery.Request.String(), nil
+				}
+				extractResultValue, err := extractor()
+				if err != nil {
+					return nil, schema.NewDiagnostics().AddErrorColumnValueExtractor(task.Table, column, err)
+				} else {
+					return extractResultValue, nil
+				}
+			})).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("id").ColumnType(schema.ColumnTypeInt).
 			Extractor(column_value_extractor.StructSelector("ID")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("event").ColumnType(schema.ColumnTypeString).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("guid").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("GUID")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("redelivery").ColumnType(schema.ColumnTypeBool).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("org").ColumnType(schema.ColumnTypeString).Description("`The Github Organization of the resource.`").
+			Extractor(github_client.ExtractorOrg()).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("hook_id").ColumnType(schema.ColumnTypeInt).Description("`Hook ID`").
+			Extractor(github_client.ExtractorParentField("ID")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("duration").ColumnType(schema.ColumnTypeFloat).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("status").ColumnType(schema.ColumnTypeString).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("status_code").ColumnType(schema.ColumnTypeInt).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("action").ColumnType(schema.ColumnTypeString).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("installation_id").ColumnType(schema.ColumnTypeInt).
+			Extractor(column_value_extractor.StructSelector("InstallationID")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("repository_id").ColumnType(schema.ColumnTypeInt).
+			Extractor(column_value_extractor.StructSelector("RepositoryID")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("selefra_id").ColumnType(schema.ColumnTypeString).SetUnique().Description("primary keys value md5").
 			Extractor(column_value_extractor.PrimaryKeysID()).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("github_hooks_selefra_id").ColumnType(schema.ColumnTypeString).SetNotNull().Description("fk to github_hooks.selefra_id").
+			Extractor(column_value_extractor.ParentColumnValue("selefra_id")).Build(),
 	}
 }
 

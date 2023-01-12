@@ -3,7 +3,7 @@ package hooks
 import (
 	"context"
 
-	"github.com/google/go-github/v45/github"
+	"github.com/google/go-github/v48/github"
 	"github.com/selefra/selefra-provider-github/github_client"
 	"github.com/selefra/selefra-provider-github/table_schema_generator"
 	"github.com/selefra/selefra-provider-sdk/provider/schema"
@@ -64,27 +64,27 @@ func (x *TableGithubHooksGenerator) GetExpandClientTask() func(ctx context.Conte
 
 func (x *TableGithubHooksGenerator) GetColumns() []*schema.Column {
 	return []*schema.Column{
-		table_schema_generator.NewColumnBuilder().ColumnName("id").ColumnType(schema.ColumnTypeInt).
-			Extractor(column_value_extractor.StructSelector("ID")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("ping_url").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("PingURL")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("org").ColumnType(schema.ColumnTypeString).Description("`The Github Organization of the resource.`").
+			Extractor(github_client.ExtractorOrg()).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("created_at").ColumnType(schema.ColumnTypeTimestamp).
 			Extractor(github_client.ExtractorGithubDateTime("CreatedAt")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("test_url").ColumnType(schema.ColumnTypeString).
-			Extractor(column_value_extractor.StructSelector("TestURL")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("type").ColumnType(schema.ColumnTypeString).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("updated_at").ColumnType(schema.ColumnTypeTimestamp).
+			Extractor(github_client.ExtractorGithubDateTime("UpdatedAt")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("id").ColumnType(schema.ColumnTypeInt).
+			Extractor(column_value_extractor.StructSelector("ID")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("events").ColumnType(schema.ColumnTypeStringArray).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("active").ColumnType(schema.ColumnTypeBool).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("test_url").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("TestURL")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("last_response").ColumnType(schema.ColumnTypeJSON).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("config").ColumnType(schema.ColumnTypeJSON).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("selefra_id").ColumnType(schema.ColumnTypeString).SetUnique().Description("primary keys value md5").
 			Extractor(column_value_extractor.PrimaryKeysID()).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("url").ColumnType(schema.ColumnTypeString).
 			Extractor(column_value_extractor.StructSelector("URL")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("ping_url").ColumnType(schema.ColumnTypeString).
-			Extractor(column_value_extractor.StructSelector("PingURL")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("last_response").ColumnType(schema.ColumnTypeJSON).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("config").ColumnType(schema.ColumnTypeJSON).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("org").ColumnType(schema.ColumnTypeString).Description("`The Github Organization of the resource.`").
-			Extractor(github_client.ExtractorOrg()).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("updated_at").ColumnType(schema.ColumnTypeTimestamp).
-			Extractor(github_client.ExtractorGithubDateTime("UpdatedAt")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("type").ColumnType(schema.ColumnTypeString).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("name").ColumnType(schema.ColumnTypeString).Build(),
 	}
 }

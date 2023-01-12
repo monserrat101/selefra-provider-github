@@ -3,7 +3,7 @@ package external
 import (
 	"context"
 
-	"github.com/google/go-github/v45/github"
+	"github.com/google/go-github/v48/github"
 	"github.com/selefra/selefra-provider-github/github_client"
 	"github.com/selefra/selefra-provider-github/table_schema_generator"
 	"github.com/selefra/selefra-provider-sdk/provider/schema"
@@ -69,17 +69,17 @@ func (x *TableGithubExternalGroupsGenerator) GetExpandClientTask() func(ctx cont
 
 func (x *TableGithubExternalGroupsGenerator) GetColumns() []*schema.Column {
 	return []*schema.Column{
-		table_schema_generator.NewColumnBuilder().ColumnName("org").ColumnType(schema.ColumnTypeString).Description("`The Github Organization of the resource.`").
-			Extractor(github_client.ExtractorOrg()).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("group_id").ColumnType(schema.ColumnTypeInt).
-			Extractor(column_value_extractor.StructSelector("GroupID")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("updated_at").ColumnType(schema.ColumnTypeTimestamp).
-			Extractor(column_value_extractor.StructSelector("UpdatedAt.Time")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("group_name").ColumnType(schema.ColumnTypeString).Build(),
+			Extractor(github_client.ExtractorGithubDateTime("UpdatedAt")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("teams").ColumnType(schema.ColumnTypeJSON).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("members").ColumnType(schema.ColumnTypeJSON).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("selefra_id").ColumnType(schema.ColumnTypeString).SetUnique().Description("primary keys value md5").
 			Extractor(column_value_extractor.PrimaryKeysID()).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("org").ColumnType(schema.ColumnTypeString).Description("`The Github Organization of the resource.`").
+			Extractor(github_client.ExtractorOrg()).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("group_id").ColumnType(schema.ColumnTypeInt).
+			Extractor(column_value_extractor.StructSelector("GroupID")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("group_name").ColumnType(schema.ColumnTypeString).Build(),
 	}
 }
 

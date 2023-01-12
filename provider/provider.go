@@ -2,10 +2,11 @@ package provider
 
 import (
 	"context"
-
 	"github.com/selefra/selefra-provider-sdk/provider"
 	"github.com/selefra/selefra-provider-sdk/provider/schema"
 	"github.com/spf13/viper"
+	"os"
+	"strings"
 
 	"github.com/selefra/selefra-provider-github/constants"
 	"github.com/selefra/selefra-provider-github/github_client"
@@ -24,6 +25,30 @@ func GetProvider() *provider.Provider {
 				err := config.Unmarshal(&githubConfig)
 				if err != nil {
 					return nil, schema.NewDiagnostics().AddErrorMsg(constants.Analysisconfigerrs, err.Error())
+				}
+
+				if githubConfig.AccessToken == "" {
+					githubConfig.AccessToken = os.Getenv("GITHUB_ACCESS_TOKEN")
+				}
+
+				if githubConfig.AccessToken == "" {
+					return nil, schema.NewDiagnostics().AddErrorMsg("missing access_token in configuration")
+				}
+
+				if len(githubConfig.Orgs) == 0 {
+					orgData := os.Getenv("GITHUB_ORGS")
+
+					var orgList []string
+
+					if orgData != "" {
+						orgList = strings.Split(orgData, ",")
+					}
+
+					githubConfig.Orgs = orgList
+				}
+
+				if len(githubConfig.Orgs) == 0 {
+					return nil, schema.NewDiagnostics().AddErrorMsg("missing orgs in configuration")
 				}
 
 				clients, err := github_client.NewClients(githubConfig)
@@ -46,10 +71,10 @@ func GetProvider() *provider.Provider {
 		},
 		ConfigMeta: provider.ConfigMeta{
 			GetDefaultConfigTemplate: func(ctx context.Context) string {
-				return `##  Optional, Repeated. Add an accounts block for every account you want to assume-role into and fetch data from.
-#accounts:
-#  - access_token: <YOUR_ACCESS_TOKEN_HERE> # Required. Personal Access Token
-#    orgs: #  ["org"] # Required. List of organizations to extract from`
+				return `# access_token: <YOUR_ACCESS_TOKEN_HERE> # Required. Personal Access Token
+# orgs: # Required. List of organizations to extract from
+  - google
+  - aws`
 			},
 			Validation: func(ctx context.Context, config *viper.Viper) *schema.Diagnostics {
 				var githubConfig github_client.Config

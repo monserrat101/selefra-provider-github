@@ -1,4 +1,4 @@
-# Provider: GitHub
+# Provider: Github
 
 ## Latest Version 
 
@@ -11,7 +11,7 @@ v0.0.1
 # Install 
 
 ```
-selefra provider install github
+selefre provider install github
 ```
 
 
@@ -27,7 +27,13 @@ selefra provider install github
 - [github_issues](github_issues.md)
 - [github_organizations](github_organizations.md)
 - [github_organization_members](github_organization_members.md)
+- [github_organization_dependabot_alerts](github_organization_dependabot_alerts.md)
+- [github_organization_dependabot_secrets](github_organization_dependabot_secrets.md)
 - [github_repositories](github_repositories.md)
+- [github_repository_dependabot_alerts](github_repository_dependabot_alerts.md)
+- [github_repository_dependabot_secrets](github_repository_dependabot_secrets.md)
+- [github_releases](github_releases.md)
+- [github_release_assets](github_release_assets.md)
 - [github_teams](github_teams.md)
 - [github_team_members](github_team_members.md)
 - [github_team_repositories](github_team_repositories.md)
