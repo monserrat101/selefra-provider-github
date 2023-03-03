@@ -44,10 +44,12 @@ if [[ "$VERSION" != "$version" ]]; then
   sed "${sedi[@]}" "s#{{.ProviderName}}#github#g" provider/template/metadata.yaml 
   sed "${sedi[@]}" "s#{{.LatestVersion}}#${version}#g" provider/template/metadata.yaml
   sed "${sedi[@]}" "s#{{.LatestUpdated}}#${time}#g" provider/template/metadata.yaml
-  sed "${sedi[@]}" "s#{{.Introduction}}#A Selefra provider for Amazon Web Services (github).#g" provider/template/metadata.yaml
+  sed "${sedi[@]}" "s#{{.Introduction}}#A Selefra provider for github.#g" provider/template/metadata.yaml
   sed "${sedi[@]}" "s#{{.ProviderVersion}}#${version}#g" provider/template/metadata.yaml
   sed "${sedi[@]}" '6d' provider/template/metadata.yaml
-  sed -n '/^ /p' provider/github/metadata.yaml >> provider/template/metadata.yaml
+  if [ -f "provider/github/metadata.yaml" ];then
+    sed -n '/^ /p' provider/github/metadata.yaml >> provider/template/metadata.yaml
+  fi
   echo "  - ${version}" >> provider/template/metadata.yaml
   cat provider/template/metadata.yaml > provider/github/metadata.yaml
   mv provider/template/metadata.yaml.bak provider/template/metadata.yaml
