@@ -98,8 +98,8 @@ func (x *TableGithubTeamMembersGenerator) GetColumns() []*schema.Column {
 		table_schema_generator.NewColumnBuilder().ColumnName("subscriptions_url").ColumnType(schema.ColumnTypeString).
 			Extractor(column_value_extractor.StructSelector("SubscriptionsURL")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("followers").ColumnType(schema.ColumnTypeInt).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("updated_at").ColumnType(schema.ColumnTypeTimestamp).
-			Extractor(github_client.ExtractorGithubDateTime("UpdatedAt")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("updated_at").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("UpdatedAt")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("suspended_at").ColumnType(schema.ColumnTypeTimestamp).
 			Extractor(github_client.ExtractorGithubDateTime("SuspendedAt")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("starred_url").ColumnType(schema.ColumnTypeString).
@@ -142,8 +142,8 @@ func (x *TableGithubTeamMembersGenerator) GetColumns() []*schema.Column {
 		table_schema_generator.NewColumnBuilder().ColumnName("blog").ColumnType(schema.ColumnTypeString).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("public_repos").ColumnType(schema.ColumnTypeInt).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("public_gists").ColumnType(schema.ColumnTypeInt).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("created_at").ColumnType(schema.ColumnTypeTimestamp).
-			Extractor(github_client.ExtractorGithubDateTime("CreatedAt")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("created_at").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("CreatedAt")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("permissions").ColumnType(schema.ColumnTypeJSON).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("followers_url").ColumnType(schema.ColumnTypeString).
 			Extractor(column_value_extractor.StructSelector("FollowersURL")).Build(),

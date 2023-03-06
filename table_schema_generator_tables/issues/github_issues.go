@@ -111,8 +111,8 @@ func (x *TableGithubIssuesGenerator) GetColumns() []*schema.Column {
 			Extractor(column_value_extractor.StructSelector("ID")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("state_reason").ColumnType(schema.ColumnTypeString).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("state").ColumnType(schema.ColumnTypeString).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("closed_at").ColumnType(schema.ColumnTypeTimestamp).
-			Extractor(github_client.ExtractorGithubDateTime("ClosedAt")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("closed_at").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("ClosedAt")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("created_at").ColumnType(schema.ColumnTypeTimestamp).
 			Extractor(github_client.ExtractorGithubDateTime("CreatedAt")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("repository_url").ColumnType(schema.ColumnTypeString).

@@ -81,19 +81,19 @@ func (x *TableGithubOrganizationMembersGenerator) GetColumns() []*schema.Column 
 		table_schema_generator.NewColumnBuilder().ColumnName("disk_usage").ColumnType(schema.ColumnTypeInt).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("text_matches").ColumnType(schema.ColumnTypeJSON).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("name").ColumnType(schema.ColumnTypeString).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("created_at").ColumnType(schema.ColumnTypeTimestamp).
-			Extractor(github_client.ExtractorGithubDateTime("CreatedAt")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("created_at").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("CreatedAt")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("gists_url").ColumnType(schema.ColumnTypeString).
 			Extractor(column_value_extractor.StructSelector("GistsURL")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("public_gists").ColumnType(schema.ColumnTypeInt).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("updated_at").ColumnType(schema.ColumnTypeTimestamp).
-			Extractor(github_client.ExtractorGithubDateTime("UpdatedAt")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("updated_at").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("UpdatedAt")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("followers_url").ColumnType(schema.ColumnTypeString).
 			Extractor(column_value_extractor.StructSelector("FollowersURL")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("gravatar_id").ColumnType(schema.ColumnTypeString).
 			Extractor(column_value_extractor.StructSelector("GravatarID")).Build(),
-		table_schema_generator.NewColumnBuilder().ColumnName("suspended_at").ColumnType(schema.ColumnTypeTimestamp).
-			Extractor(github_client.ExtractorGithubDateTime("SuspendedAt")).Build(),
+		table_schema_generator.NewColumnBuilder().ColumnName("suspended_at").ColumnType(schema.ColumnTypeString).
+			Extractor(column_value_extractor.StructSelector("SuspendedAt")).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("collaborators").ColumnType(schema.ColumnTypeInt).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("two_factor_authentication").ColumnType(schema.ColumnTypeBool).Build(),
 		table_schema_generator.NewColumnBuilder().ColumnName("events_url").ColumnType(schema.ColumnTypeString).
