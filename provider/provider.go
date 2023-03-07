@@ -71,10 +71,12 @@ func GetProvider() *provider.Provider {
 		},
 		ConfigMeta: provider.ConfigMeta{
 			GetDefaultConfigTemplate: func(ctx context.Context) string {
-				return `# access_token: <YOUR_ACCESS_TOKEN_HERE> # Required. Personal Access Token
-# orgs: # Required. List of organizations to extract from
-  - google
-  - aws`
+				return `# Required. Personal Access Token
+# access_token: <YOUR_ACCESS_TOKEN_HERE>
+# Required. List of organizations to extract from
+# orgs:
+#  - google
+#  - aws`
 			},
 			Validation: func(ctx context.Context, config *viper.Viper) *schema.Diagnostics {
 				var githubConfig github_client.Config
